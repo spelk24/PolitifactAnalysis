@@ -1,0 +1,37 @@
+Person,Category,Percent,Total
+donald-trump,True,4%,34 Checks
+donald-trump,Mostly True,10%,81 Checks
+donald-trump,Half True,14%,116 Checks
+donald-trump,Mostly False,21%,169 Checks
+donald-trump,False,34%,276 Checks
+donald-trump,Pants on Fire,14%,120 Checks
+barack-obama,True,19%,125 Checks
+barack-obama,Mostly True,26%,167 Checks
+barack-obama,Half True,25%,165 Checks
+barack-obama,Mostly False,11%,73 Checks
+barack-obama,False,11%,75 Checks
+barack-obama,Pants on Fire,1%,10 Checks
+joe-biden,True,14%,18 Checks
+joe-biden,Mostly True,21%,26 Checks
+joe-biden,Half True,24%,30 Checks
+joe-biden,Mostly False,20%,25 Checks
+joe-biden,False,13%,17 Checks
+joe-biden,Pants on Fire,4%,5 Checks
+elizabeth-warren,True,20%,7 Checks
+elizabeth-warren,Mostly True,32%,11 Checks
+elizabeth-warren,Half True,29%,10 Checks
+elizabeth-warren,Mostly False,11%,4 Checks
+elizabeth-warren,False,5%,2 Checks
+elizabeth-warren,Pants on Fire,0%,0 Checks
+nancy-pelosi,True,12%,6 Checks
+nancy-pelosi,Mostly True,10%,5 Checks
+nancy-pelosi,Half True,27%,13 Checks
+nancy-pelosi,Mostly False,19%,9 Checks
+nancy-pelosi,False,19%,9 Checks
+nancy-pelosi,Pants on Fire,8%,4 Checks
+bernie-sanders,True,12%,22 Checks
+bernie-sanders,Mostly True,35%,61 Checks
+bernie-sanders,Half True,26%,45 Checks
+bernie-sanders,Mostly False,15%,26 Checks
+bernie-sanders,False,10%,18 Checks
+bernie-sanders,Pants on Fire,0%,0 Checks
