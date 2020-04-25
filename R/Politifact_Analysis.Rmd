@@ -1,0 +1,130 @@
+---
+title: "Politifact Analysis"
+author: "Stephen Pelkofer"
+date: "4/24/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Imports
+
+```{r echo=FALSE}
+library(tidyverse)
+library(ggtext)
+library(ggthemes)
+library(scales)
+library(stringr)
+library(gghighlight)
+```
+
+## Data
+
+```{r}
+politifact_df <- read.csv("../data/politifact_data.csv")
+```
+
+## Data Prep
+
+```{r}
+summarized_lies <- politifact_df %>%
+  dplyr::mutate(Total = as.numeric(str_extract(Total,"[0-9]*")),
+                Percent = as.numeric(str_extract(Percent,"[0-9]*"))/100) %>%
+  group_by(Person) %>%
+  mutate(All_Checks_Total = sum(Total)) %>%
+  filter(Category %in% c("False", "Mostly False", "Pants on Fire")) %>%
+  group_by(Person) %>%
+  summarise(Percent_at_least_false = sum(Percent),
+            Total = first(All_Checks_Total)) %>%
+  arrange(desc(Percent_at_least_false))
+summarized_lies
+```
+
+## Total Lies
+
+```{r}
+ggplot(data = summarized_lies, aes(x = reorder(Person, desc(Percent_at_least_false)),
+                                   y = Percent_at_least_false)) +
+  geom_bar(stat = "identity",
+           fill = "#f03b20", alpha = .85,
+           width = .95) +
+  gghighlight(Person == "donald-trump", label_key = Percent_at_least_false,
+              unhighlighted_params = list(fill = alpha("#045a8d", 0.85))) +
+  ylim(0,1) +
+  coord_flip() +
+  labs(title = "<b style='color:#252525'>Politifact Fact Checking</b>",
+       subtitle = "<b style='color:#045a8d'>Democratic Leaders</b> vs. <b style='color:#f03b20'>Donald Trump</b>",
+       x = element_blank(),
+       y = element_blank()) +
+  theme(plot.title = element_markdown(),
+        plot.subtitle = element_markdown(),
+        plot.caption = element_markdown(),
+        panel.background = element_rect(fill = "white", colour = "white"),
+        panel.grid.major.y = element_line(color = "grey50",size = .01, linetype = "dotted"),
+        panel.grid.minor = element_blank())
+```
+
+## Separate Lies by Type
+- Try out facet/small multiples first - this may not be best for comparison purposes
+- Facet by category might work better
+
+### Facet by Person
+
+```{r}
+lies_by_type <- politifact_df %>%
+  dplyr::mutate(Total = as.numeric(str_extract(Total,"[0-9]*")),
+                Percent = as.numeric(str_extract(Percent,"[0-9]*"))/100) %>%
+  filter(Category %in% c("False", "Mostly False", "Pants on Fire"))
+
+ggplot(data = lies_by_type, aes(x = Category, y = Percent, group = Category)) +
+  geom_bar(stat = "identity") +
+  ylim(0,1) +
+  facet_wrap(~Person)
+```
+
+### Stacked Bar Lies
+
+```{r}
+ggplot(data = lies_by_type, aes(x = reorder(Person, Percent),
+                                y = Percent,
+                                fill = reorder(Category,desc(Category)))) +
+  geom_bar(position = "stack",stat = "identity",
+           color = "white",
+           alpha = .85,
+           width = .98) +
+  geom_text(aes(x = Person,
+                y = Percent_at_least_false + .03,
+                label = percent(Percent_at_least_false,2),
+                fill = NULL), size = 3,
+            data = summarized_lies) +
+  geom_label(aes(x = "nancy-pelosi", y = .75, label = "This guy lies \n a lot"), 
+             hjust = 0, 
+             vjust = 0.5, 
+             lineheight = 0.8,
+             colour = "#555555", 
+             fill = "white", 
+             label.size = NA,
+             size = 4) +
+  scale_fill_manual(values= c("#f03b20","#feb24c","#fecc5c")) +
+  scale_y_continuous(name="",breaks = c(0,.5,1), limits=c(0, 1), labels = percent) +
+  coord_flip() +
+  labs(title = "<p style='color:#252525'> Percentage of Fact-Checks that are <br> <b style='color:#fecc5c'>False</b>, <b style='color:#feb24c'>Mostly False</b>, or a <b style='color:#f03b20'>Pants-on-Fire</b> lie</p>",
+       caption = "<p style='color:#252525'>Data from: politifact.com | VIZ Author: Stephen Pelkofer | @Spelk24</p>",
+       x = element_blank(),
+       y = element_blank()) +
+  theme(plot.title = element_markdown(),
+        plot.subtitle = element_markdown(),
+        plot.caption = element_markdown(),
+        legend.position = "none",
+        panel.background = element_rect(fill = "white", colour = "white"),
+        panel.grid.major.y = element_line(color = "grey50",size = .01, linetype = "dotted"),
+        panel.grid.minor = element_blank())
+```
+
+
+
+
+
+
