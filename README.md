@@ -6,4 +6,6 @@ Data from: [politifact.com](politifact.com)
 
 ## Example Plots
 
+Data as of 4/23/2020
+
 <img src="images/StackedLies.png" width="550" height="400" />
