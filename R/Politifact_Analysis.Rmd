@@ -134,20 +134,20 @@ base_plot <- ggplot(data = lies_by_type, aes(x = reorder(Person, Percent),
                              size=0.3, 
                              curvature = 0.2,
                              arrow = arrow(length = unit(0.03, "npc"))) +
-  scale_fill_manual(values= c("#f03b20","#feb24c","#fecc5c")) +
+  scale_fill_manual(values= c("#e31a1c","#fd8d3c","#fecc5c")) +
   scale_y_continuous(name="",breaks = c(0,.5,1),
                      limits=c(0, 1), labels = scales::percent) +
   coord_flip() +
-  labs(title = "<p style='color:#252525'>Percentage of Politifact Fact-Checks that were proved to be<br> <b style='color:#fecc5c'>Mostly False</b>, <b style='color:#feb24c'>False</b>, or a <b style='color:#f03b20'>Pants-on-Fire</b>lie</p>",
+  labs(title = "Compared to top Democratic Leaders, Donald Trump lies A LOT",
+       subtitle = "<p style='color:#525252'>Percentage of Politifact independent fact-checks that were proved to be<br> <b style='color:#fecc5c'>Mostly False</b>, <b style='color:#fd8d3c'>False</b>, or a <b style='color:#e31a1c'>Pants-on-Fire</b>lie</p>",
        caption = "<p style='color:#252525'>Data & Images From: politifact.com | Author: Stephen Pelkofer | @Spelk24</p>",
        x = element_blank(),
        y = element_blank()) +
-  theme(plot.title = element_markdown(),
-        plot.subtitle = element_markdown(),
+  theme(plot.title = element_markdown(size = 14),
+        plot.subtitle = element_markdown(size = 10),
         plot.caption = element_markdown(),
         legend.position = "none",
         panel.background = element_rect(fill = "white", colour = "white"),
-        panel.grid.major.y = element_line(color = "grey50",size = .01, linetype = "dotted"),
         panel.grid.minor = element_blank(),
         axis.ticks.y = element_blank(),
         axis.text.y = element_blank())
@@ -173,8 +173,8 @@ StackedLies
 ```{r}
 ggsave(filename = "StackedLies.png",
        plot = print(StackedLies),
-       width = 7,
-       height = 5)
+       width = 8,
+       height = 6)
 ```
 
 ## Total Fact Checks
